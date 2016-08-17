@@ -1,0 +1,82 @@
+Requirements: 
+	1. User Login:
+		>> UserId-Password validation against the database.
+			>> Password retry. User account will be locked, if retry is >10. 
+			>> 
+		>> Users should be linked to Roles. 
+		>> Each Role should have access to specific menu
+		>> Also Role should be configured Button/Function level access.
+		
+	2. Student Registration:
+	
+	3. Expense Details
+	
+	4. Income Details
+	
+	Roles:
+	
+		Finance
+				>> Add Income/Expense 
+				
+		Normal_User :: 
+				>> Strudent Registration :: Edit, View
+				>> Inventory :: Add, Edit, View
+		Admin
+	
+"%POSTGRESQL_ROOT%/bin/initdb% -U Abhyudaya_Postgres_DB -A password -E utf8 -W -D C:\Sobhen\Abhyudaya Work\Postgres_DB	
+
+"%POSTGRESQL_ROOT%/bin/pg_ctl" -D "C:\Sobhen\Abhyudaya Work\Postgres_DB" -l "C:\Sobhen\Abhyudaya Work\Postgres_DB/log/pgsql.log" start
+"%POSTGRESQL_ROOT%/bin/pg_ctl" -D "C:\Sobhen\Abhyudaya Work\Postgres_DB" -l "C:\Sobhen\Abhyudaya Work\Postgres_DB/log/pgsql.log" stop
+
+
+
+
+Database : ABHYUDAYATRUSTDB
+URL: jdbc:postgresql://localhost:5432/ABHYUDAYATRUSTDB
+UserName: abhyudayatrustadmin
+Password: abhyudayatrustadmin
+
+https://www.adminer.org/ >> Tool for PosgreSQL
+
+
+[standalone@localhost:9999 /] module add --name=org.jboss.logging --slot=3.2.0 --resources=C:\Users\zkjncgn\.m2\repository\org\jboss\logging\jboss-logging\3.2.0.Final\jboss-logging-3.2.0.Final.jar
+[standalone@localhost:9999 /]
+
+INSERT INTO t_role (role_id, role_name, role_desc)
+     VALUES (5, 'FINANCE', 'Financial activity related  role');INSERT INTO t_role (role_id, role_name, role_desc)
+     VALUES (3, 'ADMIN', 'Admin role or Superuser');INSERT INTO t_role (role_id, role_name, role_desc)
+     VALUES (8, 'NORMAL_USER', 'Basic role');COMMIT;
+	 
+	 INSERT INTO t_menu (menu_id, menu, sort_order)
+     VALUES (49, 'Home', 1);INSERT INTO t_menu (menu_id, menu, sort_order)
+     VALUES (47, 'Finance', 3);INSERT INTO t_menu (menu_id, menu, sort_order)
+     VALUES (51, 'Administration', 2);COMMIT;
+	 
+	 INSERT INTO t_submenu (submenu_id,
+                       submenu,
+                       sort_order,
+                       url,
+                       menu_id)
+     VALUES (6,
+             'Income/Expense Details',
+             1,
+             'http:://',
+             47);INSERT INTO t_submenu (submenu_id,
+                       submenu,
+                       sort_order,
+                       url,
+                       menu_id)
+     VALUES (14,
+             'Strudent Registration',
+             1,
+             'http:://',
+             51);INSERT INTO t_submenu (submenu_id,
+                       submenu,
+                       sort_order,
+                       url,
+                       menu_id)
+     VALUES (19,
+             'Inventory',
+             2,
+             'http:://',
+             51);COMMIT;
