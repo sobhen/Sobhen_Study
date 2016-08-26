@@ -1,0 +1,111 @@
+Requirements: 
+	1. User Login:
+		>> UserId-Password validation against the database.
+			>> Password retry. User account will be locked, if retry is >10. 
+			>> 
+		>> Users should be linked to Roles. 
+		>> Each Role should have access to specific menu
+		>> Also Role should be configured Button/Function level access.
+		
+	>> Attendance Register:
+		>> Is registeringattendance 
+	
+	
+	2. Student Registration:
+	
+	3. Expense Details
+	
+	4. Income Details
+	
+	Roles:
+	
+		Finance
+				>> Add Income/Expense 
+				
+		Normal_User :: 
+				>> Strudent Registration :: Edit, View
+				>> Inventory :: Add, Edit, View
+		Admin
+	
+"%POSTGRESQL_ROOT%/bin/initdb% -U Abhyudaya_Postgres_DB -A password -E utf8 -W -D C:\Sobhen\Abhyudaya Work\Postgres_DB	
+
+"%POSTGRESQL_ROOT%/bin/pg_ctl" -D "C:\Sobhen\Abhyudaya Work\Postgres_DB" -l "C:\Sobhen\Abhyudaya Work\Postgres_DB/log/pgsql.log" start
+"%POSTGRESQL_ROOT%/bin/pg_ctl" -D "C:\Sobhen\Abhyudaya Work\Postgres_DB" -l "C:\Sobhen\Abhyudaya Work\Postgres_DB/log/pgsql.log" stop
+
+
+
+
+Database : ABHYUDAYATRUSTDB
+URL: jdbc:postgresql://localhost:5432/ABHYUDAYATRUSTDB
+UserName: abhyudayatrustadmin
+Password: abhyudayatrustadmin
+
+https://www.adminer.org/ >> Tool for PosgreSQL
+
+
+[standalone@localhost:9999 /] module add --name=org.jboss.logging --slot=3.2.0 --resources=C:\Users\zkjncgn\.m2\repository\org\jboss\logging\jboss-logging\3.2.0.Final\jboss-logging-3.2.0.Final.jar
+[standalone@localhost:9999 /]
+
+INSERT INTO t_role (role_name, role_desc) VALUES ('FINANCE', 'Financial activity related  role');
+INSERT INTO t_role (role_name,role_desc) VALUES ('ADMIN', 'Admin role or Superuser');
+INSERT INTO t_role (role_name, role_desc) VALUES ('NORMAL_USER', 'Basic role');
+	 
+INSERT INTO t_menu (menu, sort_order) VALUES ('Home', 1);
+INSERT INTO t_menu (menu, sort_order) VALUES ('Finance', 3);
+INSERT INTO t_menu (menu, sort_order) VALUES ('Administration', 2);
+	 
+INSERT INTO t_submenu (submenu,sort_order,url,menu_id) VALUES ('Income/Expense Details',1, 'http:://',(select menu_id from t_menu where menu = 'Finance'));
+INSERT INTO t_submenu (submenu, sort_order, url, menu_id) VALUES ('Strudent Registration', 1,'http:://',(select menu_id from t_menu where menu = 'Administration'));
+INSERT INTO t_submenu (submenu, sort_order, url,menu_id) VALUES ('Inventory', 2,'http:://',(select menu_id from t_menu where menu = 'Administration'));
+
+
+INSERT INTO t_user (user_name,
+                    user_id,
+                    user_status,
+                    login_password,
+                    validity_from,
+                    validity_to,
+                    last_login_time,
+                    fail_login,
+                    new_pass_flag,
+                    chng_pass_date,
+                    password_retries,
+                    role_id)
+        VALUES (
+                  'Admin',
+                  'admin',
+                  'A',
+                  '115c56161093d29d115c56161093d29dd129cc71bfb9c964d481aac813dc1bee17fe277d24c39951e355994a44cf44a0', --adminpass
+                  TO_DATE ('08/01/2016', 'MM/DD/YYYY'),
+                  TO_DATE ('12/31/2017', 'MM/DD/YYYY'),
+                  NULL,
+                  NULL,
+                  TRUE,
+                  TO_DATE ('09/15/2016', 'MM/DD/YYYY'),
+                  NULL,
+                  5);
+
+INSERT INTO t_employee (id,
+                        emp_id,
+                        emp_first_name,
+                        emp_middle_name,
+                        emp_last_name,
+                        emp_status,
+                        joining_date,
+                        dob,
+                        gender,
+                        mark_attendance_flag,
+                        address_id,
+                        user_id)
+     VALUES (29,
+             'EMP001',
+             'Sobhen',
+             'Kumar',
+             'Mishra',
+             'A',
+             TO_DATE ('08/26/2016', 'MM/DD/YYYY'),
+             TO_DATE ('07/10/1983', 'MM/DD/YYYY'),
+             'M',
+             TRUE,
+             NULL,
+             15);COMMIT;
